@@ -1,0 +1,21 @@
+<div class="category-container">
+  <ul *ngFor="let category of categories" id="category-list" class="category-list-container">
+    <li class="list-element" (click)="displayTasks(category.id)">
+      <i class="{{ category.icon }}"></i>
+      <div class="category-content">{{category.name}}</div>
+      <span *ngIf="category.taskCount != 0" class="task-count">{{category.taskCount}}</span>
+    </li>
+  </ul>
+    <div class="category-input-container">
+      <i class="fas fa-plus"></i>
+      <input class="category-input" placeholder="New List" #newCategory type="text"
+       (keypress)="createCategory(newCategory.value, $event)">
+    </div>
+    <div class="bottom-icons-container">
+      <i class="far fa-envelope bottom-icon"></i>
+      <i class="far fa-calendar-alt bottom-icon"></i>
+      <i class="fas fa-user-friends bottom-icon"></i>
+      <i class="fas fa-paperclip bottom-icon"></i>
+      <i class="fas fa-check bottom-icon"></i>
+    </div>
+  </div>

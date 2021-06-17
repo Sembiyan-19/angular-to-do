@@ -1,0 +1,17 @@
+<div class="tasks-container full-width" id="tasks-container">
+    <h3 id="tasks-heading" class="category-name">{{ categoryHeading }}</h3>
+    <div class="task-input-container">
+      <i id="add-task-icon" class="fas fa-plus"></i>
+      <input id="task-input" class="task-input" #newTask (keypress)="createTask(newTask.value, $event)" placeholder="Add a task">
+      <div class="hide-add-button add-task-button" id="add-button">ADD</div>
+    </div>
+    <ul *ngFor="let task of tasksList" id="task-list" class="tasks-list-container">
+      <li class="task-element">
+        <i *ngIf="task.isComplete" class="fas fa-check-circle"></i>
+        <i *ngIf="!task.isComplete" class="far fa-circle"></i>
+        <div class="task-content">{{ task.name }}</div>
+        <i *ngIf="task.isImportant" class="fas fa-star"></i>
+        <i *ngIf="!task.isImportant" class="far fa-star"></i>
+      </li>
+    </ul>
+  </div>
