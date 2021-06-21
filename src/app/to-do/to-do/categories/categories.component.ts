@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-categories',
@@ -9,23 +9,30 @@ export class CategoriesComponent implements OnInit {
 
   constructor() { }
   
+  @Input() currentCategoryId = '';
   @Input() categories = new Array();
   @Output() newCategoryItem = new EventEmitter<string>();
   @Output() categoryId = new EventEmitter<string>();
-  @Input() currentCategoryId = '';
+  @ViewChild("newCategory") categoryInput: any;
 
   ngOnInit(): void {
     this.displayTasks("tasks");
   }
 
-  createCategory(value: string, event: any) {
-    if (event.keyCode == 13) {
+  /**
+   * Emits the name of new category which is to be created
+   * @param value     name of the category
+   */
+  createCategory(value: string) {
       this.newCategoryItem.emit(value);
-    }
+      this.categoryInput.nativeElement.value = "";
   }
 
-  displayTasks(value: string) {
-    this.categoryId.emit(value);
+  /**
+   * Emits the id of the category whose tasks should be displayed
+   * @param categoryId     id of the category
+   */
+  displayTasks(categoryId: string) {
+    this.categoryId.emit(categoryId);
   }
-
 }

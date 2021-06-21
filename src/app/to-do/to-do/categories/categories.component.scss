@@ -59,12 +59,13 @@
     }
 
     .category-input-container {
+        
+        color: #3D78D7;
         &:hover {
             background-color: white !important;
         }
         .fa-plus {
             padding: 8px 13px 8px 16px;
-            color: #3D78D7;
         }
         ::placeholder {
             color: #3D78D7;
@@ -77,6 +78,7 @@
             &:hover {
                 background-color: white;
             }
+            
         }
         input:focus, textarea:focus, select:focus{
             outline: none;

@@ -1,24 +1,20 @@
 <!DOCTYPE html>
 <div class="page-container">
-  <div class="top-bar">
-      <i class="fas fa-bars"></i>
-      <div class="to-do-text">To Do</div>
-      <div class="search-box">
-        <i class="fas fa-search"></i>
-      </div>
-      <i class="fas fa-cog"></i>
-      <i class="fas fa-question"></i>
-      <i class="far fa-comment-alt"></i>
-      <i class="far fa-user-circle"></i> 
-  </div>
+  <app-nav-bar></app-nav-bar>
   <div class="main-container">
-    <app-categories [categories]="categoriesList"  [currentCategoryId]="currentCategoryId"
-    (newCategoryItem)="addNewCategory($event)"
-     (categoryId)="displayTasks($event)"></app-categories>
-    <app-tasks [tasksList]="tasksList" [categoryHeading]="categoryHeading"  
-    (newTaskItem)="addNewTask($event)" (importantIconId)="markImportant($event)" 
-    (completeIconId)="markComplete($event)" (taskId)="displaySteps($event)"></app-tasks>
-    <app-steps [task]="task" (newStepItem)="addNewStep($event)" (importantIconId)="markImportant($event)" 
-    (completeIconId)="markComplete($event)"></app-steps>
+    <app-categories 
+        [categories]="categoriesList" [currentCategoryId]="currentCategoryId" 
+        (newCategoryItem)="addNewCategory($event)" (categoryId)="displayTasks($event)">
+    </app-categories>
+    <app-tasks 
+        [category]="category"  [emptyList]="emptyList"
+        (newTaskItem)="addNewTask($event)" (importantIconId)="markImportant($event)" 
+        (completeIconId)="markComplete($event)" (taskId)="displaySteps($event)">
+    </app-tasks>
+    <app-steps *ngIf="isDisplayingSteps"
+        [task]="task" (newStepItem)="addNewStep($event)" 
+        (importantIconId)="markImportant($event)" 
+        (completeIconId)="markComplete($event)">
+    </app-steps>
   </div>
 </div>

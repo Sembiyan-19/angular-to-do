@@ -9,7 +9,6 @@ import { AuthenticationService } from '../authentication.service';
 })
 export class LoginComponent implements OnInit {
 
-
   constructor(private router: Router, private authenticationService: AuthenticationService) { }
 
   ngOnInit(): void {

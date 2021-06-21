@@ -1,30 +1,30 @@
 <div id="steps-container" class="steps-container">
-    <div class="steps-head-container">
-      <div id="steps-header" class="steps-head-element">
-        <i *ngIf="task.isCompleted" class="fas fa-check-circle" (click)="markComplete(task.completeIconid)"></i>
-        <i *ngIf="!task.isCompleted" class="far fa-circle"  (click)="markComplete(task.completeIconid)"></i>
-        <h4 *ngIf="!task.isCompleted" class="task-heading">{{ task.name }}</h4>
-        <h4 *ngIf="task.isCompleted" class="task-heading"><del>{{ task.name }}</del></h4>
-        <i *ngIf="task.isImportant" class="fas fa-star" (click)="markImportant(task.importantIconId)"></i>
-        <i *ngIf="!task.isImportant" class="far fa-star" (click)="markImportant(task.importantIconId)"></i>
-        <i></i>
-      </div>
-      <ul *ngFor="let step of task.steps" id="steps-list" class="steps-list-container">
-        <li class="step-element">
-            <i class="far fa-circle"></i>
-            <div class="step-content">{{ step }}</div>
-        </li>
-      </ul>
-      <div class="step-input-container">
-        <i id="add-step-icon" class="fas fa-plus"></i>
-        <input id="step-input" class="step-input" placeholder="Add step" #newStep (keypress)="createStep(newStep.value, $event)">
-        <div class="hide-add-button add-step-button" id="add-step-button">ADD</div>
-      </div>
+  <div class="steps-head-container">
+    <div id="steps-header" class="steps-head-element">
+      <i *ngIf="task.isCompleted" class="fas fa-check-circle" (click)="markComplete(task.completeIconid)"></i>
+      <i *ngIf="!task.isCompleted" class="far fa-circle"  (click)="markComplete(task.completeIconid)"></i>
+      <h4 *ngIf="!task.isCompleted" class="task-heading">{{ task.name }}</h4>
+      <h4 *ngIf="task.isCompleted" class="task-heading"><del>{{ task.name }}</del></h4>
+      <i *ngIf="task.isImportant" class="fas fa-star" (click)="markImportant(task.importantIconId)"></i>
+      <i *ngIf="!task.isImportant" class="far fa-star" (click)="markImportant(task.importantIconId)"></i>
     </div>
-    <div class="other-option">
-      <i class="far fa-sun"></i>
-      <span id="add-to-my-day">Add to my day</span>
+    <ul *ngFor="let step of task.steps" id="steps-list" class="steps-list-container">
+      <li class="step-element">
+        <i class="far fa-circle"></i>
+        <div class="step-content">{{ step }}</div>
+      </li>
+    </ul>
+    <div class="step-input-container">
+      <i *ngIf="!isOnFocus" class="fas fa-plus"></i>
+      <i *ngIf="isOnFocus" class="far fa-circle"></i>
+      <input (blur)="onBlur()" (input)="oninput(newStep.value)" (focus)=onFocus() class="step-input" placeholder="Add step" #newStep (keyup.enter)="createStep(newStep.value)">
+      <div class="{{ addButtonClass }}" id="add-step-button">ADD</div>
     </div>
+  </div>
+  <div class="other-option">
+    <i class="far fa-sun"></i>
+    <span id="add-to-my-day">Add to my day</span>
+  </div>
     <div class="option-container">
       <div class="option-element">
         <i class="far fa-bell"></i>
@@ -47,4 +47,4 @@
       <i class="far fa-sun"></i>
       <span>Add file</span>
     </div>
-  </div>
+</div>

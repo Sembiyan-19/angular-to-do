@@ -16,6 +16,18 @@
         padding-right: 17px;
         font-size: 18px;
     }
+    .empty-list-container {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        color: #34373D;
+        .empty-element {
+            padding-top: 26px;
+            padding-bottom: 26px;
+            border: none;
+            box-shadow: 0px 1px #e8e3e3;
+        }
+    }
     .tasks-list-container {
         list-style-type: none;
         padding: 0;
@@ -25,6 +37,8 @@
             border: none;
             box-shadow: 0px 1px #e8e3e3;
             font-size: 14px;
+            padding-top: 3px;
+            padding-bottom: 3px;
             &:hover {
                 background-color: #F4F4F4;
                 cursor: pointer;
@@ -51,13 +65,7 @@
                 font-size: 18px;
                 margin-top: 16px;
             }
-        }   
-        .empty-element {
-            padding-top: 26px;
-            padding-bottom: 26px;
-            border: none;
-            box-shadow: 0px 1px #e8e3e3;
-        }
+        }  
     }
     .category-name {
         color: #3D78D7;
@@ -93,6 +101,12 @@
             &:hover {
                 cursor: pointer;
             }
+        }
+        .hide-add-button {
+            display: none;
+        }
+        .display-add-button {
+            display: inline-block;
         }
     }
 }

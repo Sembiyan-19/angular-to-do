@@ -1,20 +1,26 @@
 <div class="tasks-container" [ngClass]="isDisplayingSteps ? 'half-width' : 'full-width'" id="tasks-container">
-    <h3 id="tasks-heading" class="category-name">{{ categoryHeading }}</h3>
-    <div class="task-input-container">
-      <i id="add-task-icon" class="fas fa-plus"></i>
-      <input id="task-input" class="task-input" #newTask (keypress)="createTask(newTask.value, $event)" placeholder="Add a task">
-      <div class="hide-add-button add-task-button" id="add-button">ADD</div>
-    </div>
-    <ul *ngFor="let task of tasksList" id="task-list" class="tasks-list-container">
-      <li class="task-element">
-        <i *ngIf="task.isCompleted" class="fas fa-check-circle" (click)="markComplete(task.completeIconid)"></i>
-        <i *ngIf="!task.isCompleted" class="far fa-circle" (click)="markComplete(task.completeIconid)"></i>
-        <div class="task-content"  *ngIf="!task.isCompleted" (click)="displaySteps(task.id)">{{ task.name }}</div>
-        <div class="task-content"  *ngIf="task.isCompleted" (click)="displaySteps(task.id)">
-          <del>{{ task.name }}</del>
-        </div>
-        <i *ngIf="task.isImportant" class="fas fa-star" (click)="markImportant(task.importantIconId)"></i>
-        <i *ngIf="!task.isImportant" class="far fa-star" (click)="markImportant(task.importantIconId)"></i>
-      </li>
-    </ul>
+  <h3 id="tasks-heading" class="category-name">{{ category.name }}</h3>
+  <div class="task-input-container">
+    <i *ngIf="!isOnFocus" class="fas fa-plus"></i>
+    <i *ngIf="isOnFocus" class="far fa-circle"></i>
+    <input #newTask id="task-input" (blur)="onBlur()"  
+        (focus)="onFocus()" class="task-input" (input)="oninput(newTask.value)"
+        (keyup.enter)="createTask(newTask.value)" placeholder="Add a task">
+    <div class="{{ addButtonClass }}">ADD</div>
   </div>
+  <ul *ngFor="let task of category.tasks" id="task-list" class="tasks-list-container">
+    <li class="task-element">
+      <i *ngIf="task.isCompleted" class="fas fa-check-circle" (click)="markComplete(task.completeIconid)"></i>
+      <i *ngIf="!task.isCompleted" class="far fa-circle" (click)="markComplete(task.completeIconid)"></i>
+      <div class="task-content"  *ngIf="!task.isCompleted" (click)="displaySteps(task.id)">{{ task.name }}</div>
+      <div class="task-content"  *ngIf="task.isCompleted" (click)="displaySteps(task.id)">
+        <del>{{ task.name }}</del>
+      </div>
+      <i *ngIf="task.isImportant" class="fas fa-star" (click)="markImportant(task.importantIconId)"></i>
+      <i *ngIf="!task.isImportant" class="far fa-star" (click)="markImportant(task.importantIconId)"></i>
+    </li>
+  </ul>
+  <ul *ngFor="let task of emptyList" class="empty-list-container">
+    <li class="empty-element"></li>
+  </ul>
+</div>

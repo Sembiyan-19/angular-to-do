@@ -20,6 +20,11 @@ export class ToDoService {
     this.getCategoryObject("Tasks", "tasks", "fas fa-home")
   ];
 
+  /**
+   * Adds a new category to the categories array
+   * @param categoryName       name of the new category
+   * @returns     id of newly created category
+   */
   addnewCategory(categoryName: string) {
     this.newListCount++;
     if ("" == categoryName) {
@@ -33,7 +38,15 @@ export class ToDoService {
     return this.presentCategoryId;
   }
 
-  getCategoryObject(categoryName: string, categoryId: string, categoryIcon: string) {
+  /**
+   * Creates and provides a new category object
+   * @param categoryName   namme of the category
+   * @param categoryId     id of the category
+   * @param categoryIcon    icon class to be used for the category
+   * @returns     a category object
+   */
+  getCategoryObject(categoryName: string, categoryId: string, 
+      categoryIcon: string) {
     let category = { name: categoryName, 
                      id: categoryId, 
                      icon: categoryIcon, 
@@ -43,6 +56,11 @@ export class ToDoService {
     return category;
   }
 
+  /**
+   * Gives the category object through id of the category
+   * @param categoryId     id of the category
+   * @returns     category bject matching the id
+   */
   getCategory(categoryId: string) {
     let currentCategory;
     this.categories.forEach ( (category) => {
@@ -50,32 +68,35 @@ export class ToDoService {
         currentCategory = category;
       }
     });
+    this.presentCategoryId = categoryId;
     return currentCategory;
   }
 
+  /**
+   * Creates a new task and adds it to the current category
+   * @param taskName     name of task
+   */
   addTask(taskName: string) {
-    let currentCategory: any =  this.getCategory(this.presentCategoryId);
-    currentCategory.taskCount++;
-    let task = this.getTask(taskName, currentCategory.id);
-    currentCategory.tasks.push(task);
-    if ("tasks" != currentCategory.id) {
-      this.categories[4].tasks.push(task);
-      this.categories[4].taskCount++;
-    }
+    this.categories.forEach( (category) => {
+      if (category.id === this.presentCategoryId) {
+        category.taskCount++;
+        let task = this.getTaskObject(taskName, category.id);
+        category.tasks.push(task);
+        if ("tasks" != category.id) {
+          this.categories[4].tasks.push(task);
+          this.categories[4].taskCount++;
+        }
+      }
+    });
   }
 
-  getTasks(categoryId: string) {
-    this.presentCategoryId = categoryId;
-    let currentCategory: any =  this.getCategory(categoryId);
-    return currentCategory.tasks;
-  }
-
-  getTaskName(categoryId: string) {
-    let currentCategory: any =  this.getCategory(categoryId);
-    return currentCategory.name;
-  }
-
-  getTask(taskName: string, categoryId: string) {
+  /**
+   * Creates a new task object
+   * @param taskName     name of the task
+   * @param categoryId     id of the category to which the task belongs
+   * @returns     task object
+   */
+  getTaskObject(taskName: string, categoryId: string) {
     let isImportantTask = false;
     if ("important" === categoryId) {
       isImportantTask = true;
@@ -92,49 +113,60 @@ export class ToDoService {
     return task;
   }
 
+  /**
+   * Marks a task complete/incomplete
+   * @param iconId     id of icon clicked
+   */
   markComplete(iconId: string) {
-    let caregories = this.categories;
-    let j = -1;
-    caregories.forEach( (caregory) => {
-      j++;
-      if (caregory.id === this.presentCategoryId) {
-        for (let i = 0; i < caregory.tasks.length; i++) {
-          if (caregory.tasks[i].completeIconid === iconId) {
-            this.categories[j].tasks[i].isCompleted = !this.categories[j].tasks[i].isCompleted;
-            this.categories[j].taskCount = this.getTaskCount(this.categories[j]);
+    this.categories.forEach( (category) => {
+      if (category.id === this.presentCategoryId) {
+        category.tasks.forEach ( (task) => {
+          if (task.completeIconid === iconId) {
+            task.isCompleted = !task.isCompleted;
           }
-        }
+        });
       }
     });
+    this.setTaskCount();
   }
 
+  setTaskCount() {
+    this.categories.forEach( (category) => {
+      category.taskCount = this.getTaskCount(category);
+    });
+  }
+  /**
+   * Marks a task important/unimportant
+   * @param iconId     id of icon clicked
+   */
   markImportant(iconId: string) {
-    let caregories = this.categories;
-    let j = -1;
-    caregories.forEach( (caregory) => {
-      j++;
-      if (caregory.id === this.presentCategoryId) {
-        for (let i = 0; i < caregory.tasks.length; i++) {
-          console.log(caregory.tasks);
-          if (caregory.tasks[i].importantIconId === iconId) {
-            if (caregory.tasks[i].isImportant) {
-              this.categories[j].tasks[i].isImportant = false;
+    this.categories.forEach( (category) => {
+      if (category.id === this.presentCategoryId) {
+        category.tasks.forEach ( (task) => {
+          if (task.importantIconId === iconId) {
+            if (task.isImportant) {
+              task.isImportant = false;
               for (let k = 0; k < this.categories[1].tasks.length; k++) {
                 if (iconId === this.categories[1].tasks[k].importantIconId) {
                     this.categories[1].tasks.splice(k, 1);
                 }
               }
             } else {
-              this.categories[j].tasks[i].isImportant = true;
-              this.categories[1].tasks.push(caregory.tasks[i]);
+              task.isImportant = true;
+              this.categories[1].tasks.push(task);
             }
-            this.categories[1].taskCount = this.getTaskCount(this.categories[1]);
           }
-        }
+        });
       }
-    }); 
+    });
+    this.setTaskCount();
   }
 
+  /**
+   * Provides the number tasks which are not completed
+   * @param category     category object
+   * @returns        number of tasks
+   */
   getTaskCount(category: any) {
     let count = 0;
     category.tasks.forEach( (task: any) => {
@@ -145,6 +177,10 @@ export class ToDoService {
     return count;
   }
 
+  /**
+   * Adds a new step to the task
+   * @param newStep     name of the step
+   */
   addStep(newStep: string) {
     let currentCategory: any = this.getCategory(this.presentCategoryId);
     currentCategory.tasks.forEach( (task: any) => {
@@ -154,18 +190,20 @@ export class ToDoService {
     });
   }
 
-  getSteps(taskId: string) {
+  /**
+   * Provides the task object
+   * @param taskId    id of the task
+   * @returns     task object
+   */
+  getTask(taskId: string) {
     this.presentTaskId = taskId;
-    let stepsList: any = null;
+    let taskObject: any = null;
     let currentCategory: any = this.getCategory(this.presentCategoryId);
     currentCategory.tasks.forEach( (task: any) => {
       if (taskId === task.id) {
-        stepsList = task;
+        taskObject = task;
       }
     });
-    return stepsList;
+    return taskObject;
   }
-
-
-
 }
