@@ -1,0 +1,66 @@
+.page-container {
+  height: 100vh;
+}
+.page-container .top-bar {
+  width: 100%;
+  color: white;
+  background-color: #3D78D7;
+  height: 48px;
+}
+.page-container .top-bar .fa-bars {
+  margin-right: 20px;
+  vertical-align: top;
+  margin: 16px 17px 16px 12px;
+  font-size: 17px;
+}
+.page-container .top-bar .to-do-text {
+  display: inline-block;
+  vertical-align: top;
+  font-size: 15px;
+  font-weight: 500;
+  margin: 17px 25% 17px 0;
+  width: 3%;
+}
+.page-container .top-bar .search-box {
+  width: 29%;
+  height: 32px;
+  background-color: #C3DDF7;
+  display: inline-block;
+  margin-top: 8px;
+  margin-right: 24%;
+  border-radius: 2px;
+}
+.page-container .top-bar .search-box .fa-search {
+  margin-top: 8px;
+  margin-left: 8px;
+  color: #3D78D7;
+}
+.page-container .top-bar .search-box:hover {
+  background-color: white;
+  cursor: pointer;
+}
+.page-container .top-bar .fa-cog, .page-container .top-bar .fa-question, .page-container .top-bar .fa-comment-alt {
+  vertical-align: top;
+  font-size: 17px;
+  margin: 16px 1.2% 0 1.2%;
+}
+.page-container .top-bar .fa-user-circle {
+  vertical-align: top;
+  font-size: 30px;
+  margin-top: 8px;
+}
+.page-container .main-container {
+  width: 100%;
+  vertical-align: top;
+  margin: 0;
+  background-color: #F4F4F4;
+}
+.page-container .main-container .important-checked {
+  color: #3D78D7;
+}
+.page-container .main-container .hide-add-button {
+  display: none;
+}
+.page-container .main-container .display-add-button {
+  display: inline-block;
+}/*# sourceMappingURL=to-do.component.css.map */

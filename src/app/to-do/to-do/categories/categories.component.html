@@ -1,6 +1,8 @@
 <div class="category-container">
+  <i class="fas fa-less-than"></i>
   <ul *ngFor="let category of categories" id="category-list" class="category-list-container">
-    <li class="list-element" (click)="displayTasks(category.id)">
+    <li class="list-element" (click)="displayTasks(category.id)" 
+      [ngClass]="{'current-element': currentCategoryId == category.id}">
       <i class="{{ category.icon }}"></i>
       <div class="category-content">{{category.name}}</div>
       <span *ngIf="category.taskCount != 0" class="task-count">{{category.taskCount}}</span>

@@ -9,7 +9,9 @@ export class ToDoService {
 
   untitledListCount = -1;
   newListCount = 0;
+  taskCount = 0;
   presentCategoryId = "tasks";
+  presentTaskId = "";
   categories = [
     this.getCategoryObject("My Day", "my-day", "far fa-sun"),
     this.getCategoryObject("Important", "important", "far fa-star"),
@@ -27,6 +29,8 @@ export class ToDoService {
     let newCategory = this.getCategoryObject(categoryName,
         "added-category-" + this.newListCount, "fas fa-list-ul");
     this.categories.push(newCategory);
+    this.presentCategoryId = newCategory.id;
+    return this.presentCategoryId;
   }
 
   getCategoryObject(categoryName: string, categoryId: string, categoryIcon: string) {
@@ -76,10 +80,92 @@ export class ToDoService {
     if ("important" === categoryId) {
       isImportantTask = true;
     }
+    this.taskCount++;
     let task = { name: taskName, 
+                 id: "task" + this.taskCount,
                  isCompleted: false,
-                 isImportant: isImportantTask
+                 isImportant: isImportantTask,
+                 completeIconid: "complete-icon-" + this.taskCount,
+                 importantIconId: "important-icon-" + this.taskCount,
+                 steps: new Array()
                };
     return task;
   }
+
+  markComplete(iconId: string) {
+    let caregories = this.categories;
+    let j = -1;
+    caregories.forEach( (caregory) => {
+      j++;
+      if (caregory.id === this.presentCategoryId) {
+        for (let i = 0; i < caregory.tasks.length; i++) {
+          if (caregory.tasks[i].completeIconid === iconId) {
+            this.categories[j].tasks[i].isCompleted = !this.categories[j].tasks[i].isCompleted;
+            this.categories[j].taskCount = this.getTaskCount(this.categories[j]);
+          }
+        }
+      }
+    });
+  }
+
+  markImportant(iconId: string) {
+    let caregories = this.categories;
+    let j = -1;
+    caregories.forEach( (caregory) => {
+      j++;
+      if (caregory.id === this.presentCategoryId) {
+        for (let i = 0; i < caregory.tasks.length; i++) {
+          console.log(caregory.tasks);
+          if (caregory.tasks[i].importantIconId === iconId) {
+            if (caregory.tasks[i].isImportant) {
+              this.categories[j].tasks[i].isImportant = false;
+              for (let k = 0; k < this.categories[1].tasks.length; k++) {
+                if (iconId === this.categories[1].tasks[k].importantIconId) {
+                    this.categories[1].tasks.splice(k, 1);
+                }
+              }
+            } else {
+              this.categories[j].tasks[i].isImportant = true;
+              this.categories[1].tasks.push(caregory.tasks[i]);
+            }
+            this.categories[1].taskCount = this.getTaskCount(this.categories[1]);
+          }
+        }
+      }
+    }); 
+  }
+
+  getTaskCount(category: any) {
+    let count = 0;
+    category.tasks.forEach( (task: any) => {
+      if (!task.isCompleted) {
+        count++;
+      }
+    } );
+    return count;
+  }
+
+  addStep(newStep: string) {
+    let currentCategory: any = this.getCategory(this.presentCategoryId);
+    currentCategory.tasks.forEach( (task: any) => {
+      if (this.presentTaskId === task.id) {
+        task.steps.push(newStep);
+      }
+    });
+  }
+
+  getSteps(taskId: string) {
+    this.presentTaskId = taskId;
+    let stepsList: any = null;
+    let currentCategory: any = this.getCategory(this.presentCategoryId);
+    currentCategory.tasks.forEach( (task: any) => {
+      if (taskId === task.id) {
+        stepsList = task;
+      }
+    });
+    return stepsList;
+  }
+
+
+
 }

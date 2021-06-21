@@ -11,14 +11,18 @@ export class ToDoComponent implements OnInit {
   constructor(private toDoService : ToDoService) { }
 
   categoriesList = this.toDoService.categories;
-  tasksList = new Array();
+  tasksList: any = null;
   categoryHeading = "";
+  currentCategoryId = "";
+  task: any = null;
 
   addNewCategory(newCategory: string) {
-    this.toDoService.addnewCategory(newCategory);
+    this.currentCategoryId = this.toDoService.addnewCategory(newCategory);
+    this.displayTasks(this.currentCategoryId);
   }
 
   displayTasks(categoryId: string) {
+    this.currentCategoryId = categoryId;
     this.tasksList = this.toDoService.getTasks(categoryId);
     this.categoryHeading = this.toDoService.getTaskName(categoryId);
   }
@@ -27,8 +31,23 @@ export class ToDoComponent implements OnInit {
     this.toDoService.addTask(newTask);
   }
 
+  addNewStep(newStep: string) {
+    this.toDoService.addStep(newStep);
+  }
+
   ngOnInit(): void {
     this.displayTasks("tasks");
   }
 
+  markImportant(iconId: string) {
+    this.toDoService.markImportant(iconId);
+  }
+
+  markComplete(iconId: string) {
+    this.toDoService.markComplete(iconId);
+  }
+
+  displaySteps(taskId: string) {
+    this.task = this.toDoService.getSteps(taskId);
+  }
 }

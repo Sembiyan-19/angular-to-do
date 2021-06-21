@@ -1,4 +1,4 @@
-<div class="tasks-container full-width" id="tasks-container">
+<div class="tasks-container" [ngClass]="isDisplayingSteps ? 'half-width' : 'full-width'" id="tasks-container">
     <h3 id="tasks-heading" class="category-name">{{ categoryHeading }}</h3>
     <div class="task-input-container">
       <i id="add-task-icon" class="fas fa-plus"></i>
@@ -7,11 +7,14 @@
     </div>
     <ul *ngFor="let task of tasksList" id="task-list" class="tasks-list-container">
       <li class="task-element">
-        <i *ngIf="task.isComplete" class="fas fa-check-circle"></i>
-        <i *ngIf="!task.isComplete" class="far fa-circle"></i>
-        <div class="task-content">{{ task.name }}</div>
-        <i *ngIf="task.isImportant" class="fas fa-star"></i>
-        <i *ngIf="!task.isImportant" class="far fa-star"></i>
+        <i *ngIf="task.isCompleted" class="fas fa-check-circle" (click)="markComplete(task.completeIconid)"></i>
+        <i *ngIf="!task.isCompleted" class="far fa-circle" (click)="markComplete(task.completeIconid)"></i>
+        <div class="task-content"  *ngIf="!task.isCompleted" (click)="displaySteps(task.id)">{{ task.name }}</div>
+        <div class="task-content"  *ngIf="task.isCompleted" (click)="displaySteps(task.id)">
+          <del>{{ task.name }}</del>
+        </div>
+        <i *ngIf="task.isImportant" class="fas fa-star" (click)="markImportant(task.importantIconId)"></i>
+        <i *ngIf="!task.isImportant" class="far fa-star" (click)="markImportant(task.importantIconId)"></i>
       </li>
     </ul>
   </div>

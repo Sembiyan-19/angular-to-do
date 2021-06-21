@@ -1,14 +1,19 @@
 .category-container {
-    padding-top: 70px;
+    padding-top: 25px;
     position: relative;
     vertical-align: top;
     margin: 0;
     width: 21.2%;
-    height: 540px;
+    height: 89vh;
     background-color: #F4F4F4;
     border: none;
     letter-spacing: 1px;
     display: inline-block;
+    .fa-less-than {
+        margin-left: 15px;
+        margin-bottom: 5vh;
+        color: #3D78D7;
+    }
     .category-list-container {
         list-style-type: none;
         padding-left: 0;
