@@ -13,6 +13,7 @@ declare const require: {
     <T>(id: string): T;
   };
 };
+console.log("hiii")
 
 // First, initialize the Angular testing environment.
 getTestBed().initTestEnvironment(
