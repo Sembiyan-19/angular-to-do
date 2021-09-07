@@ -9,6 +9,7 @@ if (environment.production) {
 }
 console.log("hiiiiiiiiiiiiiii")
 console.log("1234")
+console.log("12334444444444")
 
 platformBrowserDynamic().bootstrapModule(AppModule)
   .catch(err => console.error(err));
